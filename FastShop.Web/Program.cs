@@ -1,7 +1,11 @@
+using FastShop.Web;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-builder.Services.AddRazorPages();
+builder.Services.AddRazorPages(options => {
+    options.RootDirectory = "/";
+});
 
 var app = builder.Build();
 
@@ -22,5 +26,7 @@ app.UseAuthorization();
 app.MapStaticAssets();
 app.MapRazorPages()
    .WithStaticAssets();
+
+app.MinimalApi();
 
 app.Run();
