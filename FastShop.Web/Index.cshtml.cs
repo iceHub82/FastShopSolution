@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace FastShop.Web;
@@ -11,8 +12,12 @@ public class IndexModel : PageModel
         _logger = logger;
     }
 
-    public void OnGet()
+    public IActionResult OnGet()
     {
-
+        if (Request.Headers["HX-Request"].ToString() == "true")
+        {
+            return Partial("_PageContent", null);
+        }
+        return Page(); // Load the full page if not an HTMX request
     }
 }

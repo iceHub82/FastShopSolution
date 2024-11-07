@@ -1,4 +1,4 @@
-﻿namespace FastShop.Data;
+﻿namespace FastShop.Data.Entities;
 
 public class Category
 {

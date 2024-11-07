@@ -1,5 +1,3 @@
-using System.Diagnostics;
-using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
 using FastShop.Web;
 using FastShop.Data;
@@ -10,29 +8,23 @@ builder.Services.AddRazorPages(options => {
     options.RootDirectory = "/";
 });
 
-SqliteConnection? connection = null;
-if (Debugger.IsAttached)
-{
-    connection = new SqliteConnection { ConnectionString = "Data Source=:memory:" };
-    connection.Open();
-}
+var connectionString = builder.Configuration.GetConnectionString("FastShopConnection");
+var env = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
 
 builder.Services.AddDbContext<FastShopDbContext>(options => {
-    if (Debugger.IsAttached)
+    if (env == "Development")
     {
+        options.EnableSensitiveDataLogging();
         options.LogTo(Console.WriteLine, LogLevel.Debug);
-        options.UseSqlite(connection!);
     }
-    else
-        options.UseSqlite("Data Source=fastshop.db");
+
+    options.UseSqlite(connectionString!);
 });
 
 var app = builder.Build();
 
 using (var scope = app.Services.CreateScope()) {
-    var db = scope.ServiceProvider.GetRequiredService<FastShopDbContext>();
-    db.Database.EnsureCreated(); // Creates tables and seeds data for in-memory database
-    //db.Database.Migrate();
+    scope.ServiceProvider.GetRequiredService<FastShopDbContext>().Database.EnsureCreated();
 }
 
 // Configure the HTTP request pipeline.
@@ -42,6 +34,11 @@ if (!app.Environment.IsDevelopment())
     // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
     app.UseHsts();
 }
+
+//app.Use(async (context, next) =>
+//{
+//    await next();
+//});
 
 app.UseHttpsRedirection();
 
@@ -54,5 +51,7 @@ app.MapRazorPages()
    .WithStaticAssets();
 
 app.MinimalApi();
+
+app.Logger.LogInformation($"Fast Shop App Start - Environment: {env}");
 
 app.Run();

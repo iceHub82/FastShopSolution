@@ -14,40 +14,22 @@
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <script src="~/lib/htmx/htmx.min.js"></script>
 </head>
-<body hx-boost="true">
-    <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
-            <div class="container">
-                <a class="navbar-brand" href="/">HtmxWebShop.App</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                    <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" href="/">Home</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" href="/privacy" hx-target="main">Privacy</a>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-        </nav>
+<body>
+    <!-- Navigation-->
+    <nav hx-get="/navigation" hx-trigger="load" class="navbar navbar-expand-lg navbar-light bg-light"> 
+    </nav>
+    <!-- Header-->
+    <header hx-get="/header" hx-trigger="load" class="bg-dark py-5">
     </header>
-    <div class="container">
-        <main role="main" class="pb-3">
-            <div class="text-center">
-                <h1 class="display-4">Welcome</h1>
-                <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-            </div>
-        </main>
-    </div>
-
-    <footer class="border-top footer text-muted">
+    <!-- Section-->
+    <section id="section" class="py-5">
+        <div hx-get="/products" hx-trigger="load" class="container px-4 px-lg-5 mt-5">
+        </div>
+    </section>
+    <!-- Footer-->
+    <footer class="py-5 bg-dark">
         <div class="container">
-            &copy; 2024 - HtmxWebShop.App - <a asp-area="" asp-page="/Privacy">Privacy</a>
+            <p class="m-0 text-center text-white">Copyright &copy; Your Website 2024</p>
         </div>
     </footer>
 

@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using FastShop.Data.Entities;
 
 namespace FastShop.Data;
 
@@ -21,7 +22,13 @@ public class FastShopDbContext : DbContext
         modelBuilder.Entity<Product>().HasData(
             new Product { Id = 1, Name = "Laptop", Price = 1200.00m, CategoryId = 1 },
             new Product { Id = 2, Name = "T-Shirt", Price = 20.00m, CategoryId = 2 },
-            new Product { Id = 3, Name = "Apples", Price = 5.00m, CategoryId = 3 }
+            new Product { Id = 3, Name = "Apples", Price = 5.00m, CategoryId = 3 },
+            new Product { Id = 4, Name = "Laptop", Price = 1200.00m, CategoryId = 1 },
+            new Product { Id = 5, Name = "T-Shirt", Price = 20.00m, CategoryId = 2 },
+            new Product { Id = 6, Name = "Apples", Price = 5.00m, CategoryId = 3 },
+            new Product { Id = 7, Name = "Laptop", Price = 1200.00m, CategoryId = 1 },
+            new Product { Id = 8, Name = "T-Shirt", Price = 20.00m, CategoryId = 2 },
+            new Product { Id = 9, Name = "Apples", Price = 5.00m, CategoryId = 3 }
         );
     }
 }
