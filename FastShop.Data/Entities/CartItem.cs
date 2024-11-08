@@ -3,11 +3,13 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace FastShop.Data.Entities;
 
-public class Category
+public class CartItem
 {
     [Key]
     [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
     public int Id { get; set; }
-    public string? Name { get; set; }
-    public ICollection<Product>? Products { get; set; }
+    public int SizeId { get; set; }
+    public Size? Size { get; set; }
+    public int ProductId { get; set; }
+    public Product? Product { get; set; }
 }

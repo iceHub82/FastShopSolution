@@ -37,6 +37,17 @@ public static class MinimalApis
 
             return Results.Extensions.RazorSlice<Slices.Index, IndexViewModel>(new IndexViewModel { SectionUrl = $"/Product/{id}" });
         });
+
+        app.MapGet("/add-to-cart/{id}", async (FastShopDbContext context, int id) =>
+        {
+            //var products = await context.Products
+            //    .AsNoTracking()
+            //    //.Where(x => x.SomeCondition)
+            //    .Select(p => new ProductViewModel { Id = p.Id, Name = p.Name, Price = p.Price.ToString() })
+            //    .ToListAsync();
+
+            //return Results.Extensions.RazorSlice<Slices.Products, List<ProductViewModel>>(products);
+        });
     }
 
     private static bool IsHtmx(HttpRequest request)
