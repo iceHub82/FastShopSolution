@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using FastShop.Data;
 using FastShop.Web.ViewModels;
+using Microsoft.AspNetCore.Mvc;
 
 namespace FastShop.Web;
 
@@ -25,9 +26,19 @@ public static class MinimalApis
 
         app.MapGet("/Product/{id}", async (HttpRequest request, HttpResponse response, FastShopDbContext dbContext, int id) =>
         {
-            var product = await dbContext.Products.AsNoTracking().FirstAsync(p => p.Id == id);
+            var product = await dbContext.Products
+                .Include(x => x.ProductSizes)
+                .ThenInclude(x => x.Size).AsNoTracking().FirstAsync(p => p.Id == id);
 
             var productVm = new ProductVm { Id = product.Id, Name = product.Name, Price = product.Price.ToString() };
+
+            if (product.ProductSizes.Any())
+            {
+                productVm.CheckedSizeId = product.ProductSizes.First().SizeId;
+
+                foreach (var size in product.ProductSizes)
+                    productVm.ProductSizes.Add(new ProductSizeVm { Id = size.SizeId, Name = size.Size.Name });
+            }
 
             if (IsHtmx(request))
             {
@@ -38,15 +49,10 @@ public static class MinimalApis
             return Results.Extensions.RazorSlice<Slices.Index, IndexVm>(new IndexVm { SectionUrl = $"/Product/{id}" });
         });
 
-        app.MapGet("/add-to-cart/{id}", async (FastShopDbContext context, int id) =>
+        app.MapGet("/add-to-cart/{id}", (FastShopDbContext context, int id, int checkedSize) =>
         {
-            //var products = await context.Products
-            //    .AsNoTracking()
-            //    //.Where(x => x.SomeCondition)
-            //    .Select(p => new ProductViewModel { Id = p.Id, Name = p.Name, Price = p.Price.ToString() })
-            //    .ToListAsync();
 
-            //return Results.Extensions.RazorSlice<Slices.Products, List<ProductViewModel>>(products);
+            return "";
         });
     }
 

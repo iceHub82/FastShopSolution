@@ -58,6 +58,7 @@ app.Use(async (context, next) =>
     }
 
     context.Items["CartSessionId"] = cartSessionGuid;
+
     await next();
 });
 

@@ -14,10 +14,23 @@
             <p class="lead">Lorem ipsum dolor sit amet consectetur adipisicing elit. Praesentium at dolorem quidem modi. Nam sequi consequatur obcaecati excepturi alias magni, accusamus eius blanditiis delectus ipsam minima ea iste laborum vero?</p>
             <div class="d-flex">
                 <input class="form-control text-center me-3" id="inputQuantity" type="num" value="1" style="max-width: 3rem" />
-                <button hx-post="/add-to-cart/@Model.Id" type="button" class="btn btn-outline-dark flex-shrink-0">
+                <button hx-get="/add-to-cart/@Model.Id"
+                        hx-include="[name='checkedSize']"
+                        class="btn btn-outline-dark flex-shrink-0">
                     <i class="bi-cart-fill me-1"></i>
                     Add to cart
                 </button>
+
+                @for (int i = 0; i < Model.ProductSizes.Count; i++)
+                {
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" id="productSize" name="productSize" value="@Model.ProductSizes[i].Id" @(i == 0 ? "checked" : "")>
+                        <label class="form-check-label">
+                            @Model.ProductSizes[i].Name
+                        </label>
+                    </div>
+                }
+                <input id="checkedSize" name="checkedSize" type="hidden" value="@Model.CheckedSizeId" />
             </div>
         </div>
     </div>

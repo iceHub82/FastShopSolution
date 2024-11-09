@@ -70,8 +70,7 @@ public class FastShopDbContext : DbContext
             new ProductSize { ProductId = 4, SizeId = 4 },
             new ProductSize { ProductId = 4, SizeId = 5 },
             new ProductSize { ProductId = 4, SizeId = 6 },
-            new ProductSize { ProductId = 5, SizeId = 5 },
-            new ProductSize { ProductId = 6, SizeId = 6 }
+            new ProductSize { ProductId = 5, SizeId = 5 }
         );
     }
 }
