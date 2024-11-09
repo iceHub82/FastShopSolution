@@ -12,12 +12,12 @@ public class IndexModel : PageModel
         _logger = logger;
     }
 
-    public IActionResult OnGet()
+    public void OnGet()
     {
-        if (Request.Headers["HX-Request"].ToString() == "true")
-        {
-            return Partial("_PageContent", null);
-        }
-        return Page(); // Load the full page if not an HTMX request
+        //if (Request.Headers["HX-Request"].ToString() == "true")
+        //{
+        //    return Partial("_PageContent", null);
+        //}
+        //return Page(); // Load the full page if not an HTMX request
     }
 }
