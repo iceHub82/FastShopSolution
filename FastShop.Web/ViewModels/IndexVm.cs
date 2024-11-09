@@ -1,6 +1,6 @@
 ﻿namespace FastShop.Web.ViewModels;
 
-public class IndexViewModel
+public class IndexVm
 {
     public string? SectionUrl { get; set; }
 }

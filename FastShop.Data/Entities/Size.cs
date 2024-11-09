@@ -11,4 +11,6 @@ public class Size
     public string? Name { get; set; }
     public int SizeTypeId { get; set; }
     public SizeType? SizeType { get; set; }
+
+    public ICollection<ProductSize> ProductSizes { get; set; }
 }

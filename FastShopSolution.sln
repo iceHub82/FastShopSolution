@@ -3,9 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.11.35327.3
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FastShop.Web", "FastShop.Web\FastShop.Web.csproj", "{C23A4C62-2462-45CD-9E67-9DDE65CCB5B6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FastShop.Web", "FastShop.Web\FastShop.Web.csproj", "{C23A4C62-2462-45CD-9E67-9DDE65CCB5B6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FastShop.Data", "FastShop.Data\FastShop.Data.csproj", "{CA717136-75CD-4EF3-A24C-F048194D7D2C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FastShop.Data", "FastShop.Data\FastShop.Data.csproj", "{CA717136-75CD-4EF3-A24C-F048194D7D2C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
