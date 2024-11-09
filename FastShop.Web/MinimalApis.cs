@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using FastShop.Data;
+using FastShop.Data.Entities;
 using FastShop.Web.ViewModels;
-using Microsoft.AspNetCore.Mvc;
 
 namespace FastShop.Web;
 
@@ -9,8 +9,19 @@ public static class MinimalApis
 {
     public static void MinimalApi(this WebApplication app)
     {
-        app.MapGet("/", (HttpRequest request) => {
+        app.MapGet("/", () => {
             return Results.Extensions.RazorSlice<Slices.Index, IndexVm>(new IndexVm { SectionUrl = "/Products" });
+        });
+
+        app.MapGet("/cart-button", async (HttpContext context, FastShopDbContext dbContext) => {
+
+            var sessionId = context.Request.Cookies["CartSessionId"];
+
+            var cart = dbContext.Carts.Where(c => c.CartGuid == Guid.Parse(sessionId)).First();
+
+            var cartItemsCount = await dbContext.CartItems.CountAsync(c => c.CartId == cart.Id);
+
+            return Results.Extensions.RazorSlice<Slices.CartButton, int>(cartItemsCount);
         });
 
         app.MapGet("/Products", async (FastShopDbContext context, HttpRequest request) =>
@@ -49,10 +60,18 @@ public static class MinimalApis
             return Results.Extensions.RazorSlice<Slices.Index, IndexVm>(new IndexVm { SectionUrl = $"/Product/{id}" });
         });
 
-        app.MapGet("/add-to-cart/{id}", (FastShopDbContext context, int id, int checkedSize) =>
+        app.MapGet("/add-to-cart/{id}", async (HttpContext context, FastShopDbContext dbContext, int id, int checkedSize) =>
         {
+            var sessionId = context.Request.Cookies["CartSessionId"];
 
-            return "";
+            var cart = dbContext.Carts.Where(c => c.CartGuid == Guid.Parse(sessionId)).First();
+
+            await dbContext.CartItems.AddAsync(new CartItem { CartId = cart.Id, ProductId = id, SizeId = checkedSize == 0 ? null : checkedSize });
+            await dbContext.SaveChangesAsync();
+
+            var cartItemsCount = dbContext.CartItems.Count(c => c.CartId == cart.Id);
+
+            return Results.Extensions.RazorSlice<Slices.CartButton, int>(cartItemsCount);
         });
     }
 
