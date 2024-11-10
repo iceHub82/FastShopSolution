@@ -1,7 +1,9 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Diagnostics;
+using Microsoft.EntityFrameworkCore;
 using FastShop.Data;
 using FastShop.Data.Entities;
 using FastShop.Web.ViewModels;
+
 namespace FastShop.Web;
 
 public static class MinimalApis
@@ -73,7 +75,7 @@ public static class MinimalApis
             return Results.Extensions.RazorSlice<Slices.CartButton, int>(cartItemsCount);
         });
 
-        app.MapGet("/error", (int statusCode) => {
+        app.MapGet("/Redirects", (int statusCode) => {
 
             if (statusCode == 404)
             {
@@ -81,6 +83,23 @@ public static class MinimalApis
             }
 
             return Results.Extensions.RazorSlice<Slices.NotFound>();
+        });
+
+        app.MapGet("/Error", (HttpContext context) =>
+        {
+            // Access exception details, if needed
+            var exception = context.Features.Get<IExceptionHandlerFeature>()?.Error;
+
+            // Log the exception or handle it as needed
+            Console.WriteLine($"Unhandled exception: {exception?.Message}");
+
+            // Return a custom response or redirect
+            //return Results.Problem(
+            //    detail: "An unexpected error occurred.",
+            //    statusCode: 500
+            //);
+
+            return Results.Extensions.RazorSlice<Slices.Error>();
         });
     }
 

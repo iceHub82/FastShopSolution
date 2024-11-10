@@ -33,6 +33,8 @@ using (var scope = app.Services.CreateScope()) {
     scope.ServiceProvider.GetRequiredService<FastShopDbContext>().Database.EnsureCreated();
 }
 
+app.UseExceptionHandler("/Error");
+
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
 {
@@ -41,7 +43,7 @@ if (!app.Environment.IsDevelopment())
     app.UseHsts();
 }
 
-app.UseStatusCodePagesWithRedirects("/error?statusCode={0}");
+app.UseStatusCodePagesWithRedirects("/Redirects?statusCode={0}");
 
 app.Use(async (context, next) =>
 {
@@ -77,6 +79,6 @@ app.MapRazorPages()
 
 app.MinimalApi();
 
-app.Logger.LogInformation($"Fast Shop App Start - Environment: {env}");
+app.Logger.LogInformation($"FastShop App Start - Environment: {env}");
 
 app.Run();
