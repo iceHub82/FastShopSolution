@@ -2,7 +2,6 @@
 using FastShop.Data;
 using FastShop.Data.Entities;
 using FastShop.Web.ViewModels;
-
 namespace FastShop.Web;
 
 public static class MinimalApis
@@ -72,6 +71,16 @@ public static class MinimalApis
             var cartItemsCount = dbContext.CartItems.Count(c => c.CartId == cart.Id);
 
             return Results.Extensions.RazorSlice<Slices.CartButton, int>(cartItemsCount);
+        });
+
+        app.MapGet("/error", (int statusCode) => {
+
+            if (statusCode == 404)
+            {
+                 
+            }
+
+            return Results.Extensions.RazorSlice<Slices.NotFound>();
         });
     }
 
